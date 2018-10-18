@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   seekBarProgress: {
     height: 3,
-    backgroundColor: '#F00',
+    backgroundColor: '#2979ff',
   },
   seekBarKnob: {
     width: 20,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginHorizontal: -8,
     marginVertical: -10,
     borderRadius: 10,
-    backgroundColor: '#F00',
+    backgroundColor: '#2979ff',
     transform: [{ scale: 0.8 }],
     zIndex: 1,
   },
@@ -138,12 +138,22 @@ export default class VideoPlayer extends Component {
   }
 
   onStartPress() {
-    this.setState({
-      isPlaying: true,
-      isStarted: true,
-    });
+    if(Platform.OS === "android"){
+      this.setState({
+        // isPlaying: true,
+        // isStarted: true,
+      });
+      var uri = this.props.video.uri;
+      NativeModules.BridgeModule.showFullscreen(uri);
+    }else{
 
-    this.hideControls();
+
+      this.setState({
+        isPlaying: true,
+        isStarted: true,
+      });
+      this.hideControls();
+    }
   }
 
   onProgress(event) {
